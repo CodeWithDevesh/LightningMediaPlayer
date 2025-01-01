@@ -1,0 +1,29 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 15
+  },
+  "configurePresets": [
+    {
+      "name": "with_gui",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "USE_GUI": {
+          "type": "BOOL",
+          "value": "ON"
+        }
+      }
+    },
+    {
+      "name": "without_gui",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "USE_GUI": {
+          "type": "BOOL",
+          "value": "OFF"
+        }
+      }
+    }
+  ]
+}
