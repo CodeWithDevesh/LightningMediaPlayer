@@ -1,4 +1,1 @@
-#include <iostream>
-int main(){
-  std::cout<< "Using Console Mode" << std::endl;
-}
+int main(int argc, char* argv[]);

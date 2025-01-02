@@ -23,3 +23,5 @@ else()
     target_compile_definitions(LightningMediaPlayer PRIVATE NO_GUI)
     target_link_libraries(LightningMediaPlayer PRIVATE core CONSOLE)
 endif()
+
+target_include_directories(LightningMediaPlayer PRIVATE include/)
