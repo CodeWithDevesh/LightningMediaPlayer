@@ -1,0 +1,8 @@
+{
+  "dependencies": [
+    "ffmpeg",
+    "spdlog",
+    "imgui",
+    "cli11"
+  ]
+}

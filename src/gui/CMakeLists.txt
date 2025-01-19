@@ -1,7 +1,5 @@
-find_package(Qt6 REQUIRED COMPONENTS Widgets Core Gui)
-
 add_library(GUI STATIC main.h)
 
-target_link_libraries(GUI PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui core)
+find_package(imgui CONFIG REQUIRED)
 
-target_include_directories(GUI PRIVATE ${Qt6_INCLUDE_DIRS})
+target_link_libraries(GUI PRIVATE imgui::imgui core)
