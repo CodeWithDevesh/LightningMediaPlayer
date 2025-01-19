@@ -8,6 +8,7 @@
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libswresample/swresample.h>
+#include <libavformat/avformat.h>
 }
 
 namespace lighter {
