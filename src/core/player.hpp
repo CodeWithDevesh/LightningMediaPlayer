@@ -1,17 +1,10 @@
+#pragma once
+
 #ifndef CORE_PLAYER
 #define CORE_PLAYER
 
-#include <string>
-#include <thread>
-#include <mutex>
-#include <condition_variable>
-#include "AudioPlayer.hpp"
-extern "C" {
-#include <libavformat/avformat.h>
-#include <libavcodec/avcodec.h>
-#include <libswresample/swresample.h>
-#include <libswscale/swscale.h>
-}
+#include "utils.hpp"
+
 
 namespace lighter {
 	class Player {
@@ -31,27 +24,14 @@ namespace lighter {
 		//void renderVideo();
 		//void playAudio();
 
-		// FFmpeg Contexts
-		AVFormatContext* formatCtx = nullptr;
-		AVCodecContext* audioCodecCtx = nullptr;
-		AVCodecContext* videoCodecCtx = nullptr;
-
 		// Audio/Video Streams
 		int audioStreamIndex = -1;
 		int videoStreamIndex = -1;
 
-		// Threads for Playback
-		std::thread decodeThread;
-		std::thread audioThread;
-		std::thread videoThread;
+		std::thread playbackThread;
 
 		// Playback State
 		bool isPlaying = false;
-		bool isPaused = false;
-
-		// Synchronization
-		std::mutex stateMutex;
-		std::condition_variable cv;
 	};
 }
 

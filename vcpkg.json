@@ -1,12 +1,7 @@
 {
   "dependencies": [
-    {
-      "name": "ffmpeg",
-      "features": [ "qsv", "avcodec", "avformat", "swscale", "x264", "x265", "ffmpeg" ]
-    },
     "spdlog",
     "imgui",
-    "cli11",
-    "sdl2"
+    "cli11"
   ]
 }

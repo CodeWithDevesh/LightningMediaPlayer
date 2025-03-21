@@ -7,10 +7,10 @@
 #include <utility>
 #include <sstream>
 
-// Define macros for logging
 #define INFO(...) spdlog::info(__VA_ARGS__)
 #define WARN(...) spdlog::warn(__VA_ARGS__)
 #define ERROR(...) spdlog::error(__VA_ARGS__)
+#define DEBUG(...) spdlog::debug(__VA_ARGS__)
 #define LOG(level, ...) spdlog::level(__VA_ARGS__)
 
 namespace Lighter {
