@@ -1,11 +1,9 @@
 #ifndef CORE_UTILS_H
 #define CORE_UTILS_H
 
+#include <spdlog/spdlog.h>
 #include <string>
 #include <vector>
-#include <spdlog/spdlog.h>
-#include <utility>
-#include <sstream>
 
 #define INFO(...) spdlog::info(__VA_ARGS__)
 #define WARN(...) spdlog::warn(__VA_ARGS__)
@@ -15,16 +13,16 @@
 
 namespace Lighter {
 
-    // File Handling Utilities
-    std::string getFileExtension(const std::string& filePath);
+// File Handling Utilities
+std::string getFileExtension(const std::string &filePath);
 
-    // String Manipulation
-    std::string trim(const std::string& str);
-    std::vector<std::string> split(const std::string& str, char delimiter);
+// String Manipulation
+std::string trim(const std::string &str);
+std::vector<std::string> split(const std::string &str, char delimiter);
 
-    // Time Management
-    std::string formatDuration(int seconds);
+// Time Management
+std::string formatDuration(int seconds);
 
-} // namespace utils
+} // namespace Lighter
 
 #endif // UTILS_H

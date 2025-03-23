@@ -2,33 +2,29 @@
 
 #ifndef CORE_PLAYER
 #define CORE_PLAYER
-
+#include "playlist.hpp"
+#include "vlc/vlc.h"
 #include "utils.hpp"
 
-
-namespace lighter {
-	class Player {
+namespace lighter
+{
+	class Player
+	{
 	public:
-		Player();
+		Player(libvlc_instance_t *vlcInstance, Playlist *playlist);
 		~Player();
 
-		bool loadMedia(const std::string& filePath);
-		//void play();
-		//void pause();
-		//void stop();
-		//void seek(double seconds);
-		//void setVolume(int volume);
+		void play();
+		void pause();
+		void stop();
+		void seek(double seconds);
+		void setVolume(int volume);
 
 	private:
-		//void decode();
-		//void renderVideo();
-		//void playAudio();
-
 		// Audio/Video Streams
 		int audioStreamIndex = -1;
 		int videoStreamIndex = -1;
-
-		std::thread playbackThread;
+		libvlc_media_player_t	*player = nullptr;
 
 		// Playback State
 		bool isPlaying = false;
