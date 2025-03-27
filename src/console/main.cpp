@@ -19,6 +19,7 @@ void displayHelp()
 
 int start(int argc, char **argv)
 {
+    spdlog::set_level(spdlog::level::debug);
     INFO("Running in console mode");
 
     CLI::App app{"Lightning Media Player"};
@@ -30,6 +31,11 @@ int start(int argc, char **argv)
     {
         lighter::Core core_instance;
         lighter::EventManager *eventManager = core_instance.getEventManager();
+
+        eventManager->registerListner(lighter::Events::EventType::MEDIA_ADDED, [&](std::any data) {
+            auto e = std::any_cast<lighter::Events::MediaAddedEvent>(data);
+            INFO("Media added: {} - {}", e.name, e.path);
+        });
 
         lighter::Playlist *playlist = core_instance.getPlaylist();
         playlist->addMedia(mediaFile);
