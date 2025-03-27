@@ -3,9 +3,10 @@
 #ifndef CORE_PLAYLIST
 #define CORE_PLAYLIST
 
-#include "utils.hpp"
-#include <vlc/vlc.h>
 
+#include "events.hpp"
+#include "eventmanager.hpp"
+#include "utils.hpp"
 #include <fmt/format.h>
 
 namespace lighter
@@ -20,7 +21,7 @@ namespace lighter
   class Playlist
   {
   public:
-    Playlist();
+    Playlist(EventManager* eventManager);
     ~Playlist();
     void shuffel();
     void setLoopMode(LoopMode loopMode);
@@ -36,9 +37,9 @@ namespace lighter
     std::vector<std::string> mediaFiles;
     size_t currentIndex;
     LoopMode loopMode = NO_LOOP;
+    EventManager *eventManager = nullptr;
   };
 }
-
 
 // Log formatter for LoopMode
 template <>

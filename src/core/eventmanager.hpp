@@ -1,22 +1,30 @@
-#pragma once 
+#pragma once
 
 #ifndef CORE_EVENTMANAGER
 #define CORE_EVENTMANAGER
 
 #include "utils.hpp"
+#include "events.hpp"
 
-class EventManager{
+namespace lighter
+{
+  class EventManager
+  {
+    using Callback = std::function<void(std::any)>;
 
   public:
-    EventManager() = delete;
-    ~EventManager() = delete;
+    EventManager();
+    ~EventManager();
 
-    
-
+    int registerListner(Events::EventType type, Callback callback);
+    void unregisterListner(Events::EventType type , int eventId);
+    void triggerEvent(Events::EventType type, std::any data);
 
   private:
-    static std::thread eventThread;
+    std::thread eventThread;
+    std::map<Events::EventType, std::map<int, Callback>> eventCallbacks;
+    std::atomic<int> listnerId = 0;
+  };
+}
 
-};
-
-#endif // CORE_EVENTMANAGER
+#endif // CORE_EVENTMANAG

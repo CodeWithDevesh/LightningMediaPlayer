@@ -22,15 +22,17 @@ int start(int argc, char **argv)
     INFO("Running in console mode");
 
     CLI::App app{"Lightning Media Player"};
-    std::string mediaFile = "./blah.webm";
+    std::string mediaFile = "~/Downloads/blah.webm";
 
     cli::setupCLI(app, mediaFile);
     CLI11_PARSE(app, argc, argv);
-
     try
     {
         lighter::Core core_instance;
-        
+        lighter::EventManager *eventManager = core_instance.getEventManager();
+
+        lighter::Playlist *playlist = core_instance.getPlaylist();
+        playlist->addMedia(mediaFile);
     }
     catch (const std::exception &ex)
     {

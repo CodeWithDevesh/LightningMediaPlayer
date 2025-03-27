@@ -1,9 +1,10 @@
+#pragma once
+
 #ifndef CORE_UTILS_H
 #define CORE_UTILS_H
 
 #include <spdlog/spdlog.h>
-#include <string>
-#include <vector>
+#include <bits/stdc++.h>
 
 #define INFO(...) spdlog::info(__VA_ARGS__)
 #define WARN(...) spdlog::warn(__VA_ARGS__)
@@ -11,10 +12,12 @@
 #define DEBUG(...) spdlog::debug(__VA_ARGS__)
 #define LOG(level, ...) spdlog::level(__VA_ARGS__)
 
-namespace Lighter {
+namespace lighter {
 
 // File Handling Utilities
 std::string getFileExtension(const std::string &filePath);
+
+std::string getFileName(const std::string &filePath);
 
 // String Manipulation
 std::string trim(const std::string &str);

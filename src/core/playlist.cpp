@@ -1,11 +1,13 @@
 #include "playlist.hpp"
 
-namespace lighter{
+namespace lighter
+{
 
-  Playlist::Playlist()
+  Playlist::Playlist(EventManager *eventManager)
   {
     INFO("Initializing Playlist...");
     currentIndex = 0;
+    this->eventManager = eventManager;
     INFO("Playlist initialized successfully.");
   }
 
@@ -34,7 +36,13 @@ namespace lighter{
   void Playlist::addMedia(const std::string &filePath)
   {
     INFO("Adding media to Playlist: {}", filePath);
+
     mediaFiles.push_back(filePath);
+    Events::MediaAddedEvent e;
+    e.name = getFileName(filePath);
+    e.path = filePath;
+    // TODO : add checks if the file exists
+    eventManager->triggerEvent(Events::MEDIA_ADDED, e);
     INFO("Media added successfully.");
   }
 

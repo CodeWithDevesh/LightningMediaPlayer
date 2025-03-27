@@ -3,33 +3,46 @@
 #include <sstream>
 #include <cctype>
 #include <filesystem>
-extern "C" {
+extern "C"
+{
 }
 
-namespace lighter {
+namespace lighter
+{
 
-    std::string getFileExtension(const std::string& filePath) {
+    std::string getFileExtension(const std::string &filePath)
+    {
         auto ext = std::filesystem::path(filePath).extension();
         return ext.empty() ? "" : ext.string().substr(1);
     }
 
-    std::string trim(const std::string& str) {
+    std::string trim(const std::string &str)
+    {
         auto start = std::find_if_not(str.begin(), str.end(), ::isspace);
         auto end = std::find_if_not(str.rbegin(), str.rend(), ::isspace).base();
         return (start < end) ? std::string(start, end) : "";
     }
 
-    std::vector<std::string> split(const std::string& str, char delimiter) {
+    std::vector<std::string> split(const std::string &str, char delimiter)
+    {
         std::vector<std::string> tokens;
         std::stringstream ss(str);
         std::string token;
-        while (std::getline(ss, token, delimiter)) {
+        while (std::getline(ss, token, delimiter))
+        {
             tokens.push_back(token);
         }
         return tokens;
     }
 
-    std::string formatDuration(int seconds) {
+    std::string getFileName(const std::string &filePath)
+    {
+        auto name = std::filesystem::path(filePath).filename();
+        return name.empty() ? "" : name.string();
+    }
+
+    std::string formatDuration(int seconds)
+    {
         int hours = seconds / 3600;
         seconds %= 3600;
         int minutes = seconds / 60;
