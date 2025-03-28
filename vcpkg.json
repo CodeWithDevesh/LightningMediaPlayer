@@ -2,6 +2,7 @@
   "dependencies": [
     "spdlog",
     "imgui",
-    "cli11"
+    "cli11",
+    "ftxui"
   ]
 }

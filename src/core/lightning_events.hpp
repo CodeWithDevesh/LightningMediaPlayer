@@ -3,7 +3,7 @@
 #ifndef CORE_EVENTS
 #define CORE_EVENTS
 
-#include "utils.hpp"
+#include "lightning_utils.hpp"
 #include "fmt/format.h"
 
 namespace lighter
@@ -13,8 +13,10 @@ namespace lighter
   {
     enum EventType
     {
-      MEDIA_ADDED,
-      MEDIA_REMOVED,
+      MEDIA_ADDED,                    // Generic
+      MEDIA_REMOVED,                  // Generic
+      PLAYLIST_UPDATED,               // Used to update the UI
+      PLAYBACK_MEDIA_CHANGED,         // Notifies the player that the media has changed
     };
 
     struct Event
@@ -36,6 +38,20 @@ namespace lighter
       std::string name;
       std::string path;
       bool wasCurrent;
+      int index;
+    };
+
+    struct PlaylistUpdatedEvent : Event
+    {
+      EventType type = EventType::PLAYLIST_UPDATED;
+      std::string change = "";
+    };
+
+    struct PlaybackMediaChangedEvent : Event
+    {
+      EventType type = EventType::PLAYBACK_MEDIA_CHANGED;
+      std::string name;
+      std::string path;
       int index;
     };
   }
@@ -60,6 +76,12 @@ struct fmt::formatter<lighter::Events::EventType>
       break;
     case lighter::Events::MEDIA_REMOVED:
       typeStr = "MEDIA_REMOVED";
+      break;
+    case lighter::Events::PLAYLIST_UPDATED:
+      typeStr = "PLAYLIST_UPDATED";
+      break;
+    case lighter::Events::PLAYBACK_MEDIA_CHANGED:
+      typeStr = "PLAYBACK_MEDIA_CHANGED";
       break;
     default:
       typeStr = "UNKNOWN";

@@ -4,9 +4,9 @@
 #define CORE_PLAYLIST
 
 
-#include "events.hpp"
-#include "eventmanager.hpp"
-#include "utils.hpp"
+#include "lightning_events.hpp"
+#include "lightning_eventmanager.hpp"
+#include "lightning_utils.hpp"
 #include <fmt/format.h>
 
 namespace lighter
@@ -35,9 +35,11 @@ namespace lighter
 
   private:
     std::vector<std::string> mediaFiles;
-    size_t currentIndex;
+    size_t currentIndex = 0;
     LoopMode loopMode = NO_LOOP;
     EventManager *eventManager = nullptr;
+
+    void switchedMediaEv();
   };
 }
 

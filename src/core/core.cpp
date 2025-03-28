@@ -1,4 +1,4 @@
-#include "core.hpp"
+#include "lightning_core.hpp"
 
 namespace lighter
 {
@@ -7,9 +7,9 @@ namespace lighter
   {
     try
     {
-      INFO("Initializing libVLC...");
+      DEBUG("Initializing libVLC...");
 
-      const char *vlc_args[] = {"--verbose=2", "--no-video-title-show",
+      const char *vlc_args[] = {"--quiet", "--no-video-title-show",
                                 "--avcodec-hw=any"};
 
       // Before anything initialize the event manager
@@ -22,9 +22,12 @@ namespace lighter
         return false;
       }
 
-      INFO("libVLC initialized successfully.");
+      libvlc_log_set(vlcInstance, vlc_log_callback, nullptr);
+
+
+      DEBUG("libVLC initialized successfully.");
       playlist = new Playlist(eventManager);
-      player = new Player(vlcInstance, playlist);
+      player = new Player(vlcInstance, playlist, eventManager);
 
       return true;
     }
@@ -38,7 +41,7 @@ namespace lighter
   void Core::cleanup()
   {
 
-    INFO("Cleaning up libVLC resources...");
+    DEBUG("Cleaning up libVLC resources...");
 
     if (playlist)
     {
@@ -56,14 +59,41 @@ namespace lighter
       eventManager = nullptr;
     }
 
-    INFO("Releasing libVLC instance...");
+    DEBUG("Releasing libVLC instance...");
     if (vlcInstance)
     {
       libvlc_release(vlcInstance);
       vlcInstance = nullptr;
     }
 
-    INFO("Core module cleanup complete.");
+    DEBUG("Core module cleanup complete.");
+  }
+
+  void Core::vlc_log_callback(void *data, int level, const libvlc_log_t *ctx, const char *fmt, va_list args)
+  {
+    char buffer[1024];
+    vsnprintf(buffer, sizeof(buffer), fmt, args);
+    std::string log_msg = "[LibVLC] " + std::string(buffer);
+
+    // Map VLC log levels to spdlog
+    switch (level)
+    {
+    case LIBVLC_DEBUG:
+      spdlog::debug(log_msg);
+      break;
+    case LIBVLC_NOTICE:
+      spdlog::info(log_msg);
+      break;
+    case LIBVLC_WARNING:
+      spdlog::warn(log_msg);
+      break;
+    case LIBVLC_ERROR:
+      spdlog::error(log_msg);
+      break;
+    default:
+      spdlog::trace(log_msg);
+      break;
+    }
   }
 
 } // namespace lighter

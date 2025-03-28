@@ -3,8 +3,8 @@
 #ifndef CORE_EVENTMANAGER
 #define CORE_EVENTMANAGER
 
-#include "utils.hpp"
-#include "events.hpp"
+#include "lightning_utils.hpp"
+#include "lightning_events.hpp"
 
 namespace lighter
 {

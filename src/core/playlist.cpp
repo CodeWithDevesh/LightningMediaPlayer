@@ -1,41 +1,41 @@
-#include "playlist.hpp"
+#include "lightning_playlist.hpp"
 
 namespace lighter
 {
 
   Playlist::Playlist(EventManager *eventManager)
   {
-    INFO("Initializing Playlist...");
-    currentIndex = 0;
+    DEBUG("Initializing Playlist...");
     this->eventManager = eventManager;
-    INFO("Playlist initialized successfully.");
+    DEBUG("Playlist initialized successfully.");
   }
 
   Playlist::~Playlist()
   {
-    INFO("Clearing Playlist resources...");
+    DEBUG("Clearing Playlist resources...");
     mediaFiles.clear();
-    INFO("Playlist cleanup complete.");
+    DEBUG("Playlist cleanup complete.");
   }
 
   void Playlist::shuffel()
   {
-    INFO("Shuffling Playlist...");
-    // std::random_shuffle(mediaFiles.begin(), mediaFiles.end());
-
-    INFO("Playlist shuffled successfully.");
+    DEBUG("Shuffling Playlist...");
+    std::random_shuffle(mediaFiles.begin(), mediaFiles.end());
+    eventManager->triggerEvent(Events::PLAYLIST_UPDATED, Events::PlaylistUpdatedEvent{.change = "shuffle"});
+    DEBUG("Playlist shuffled successfully.");
   }
 
   void Playlist::setLoopMode(LoopMode loopMode)
   {
-    INFO("Setting Loop Mode...");
+    DEBUG("Setting Loop Mode...");
     this->loopMode = loopMode;
-    INFO("Loop Mode set to: {}", loopMode);
+    eventManager->triggerEvent(Events::PLAYLIST_UPDATED, Events::PlaylistUpdatedEvent{.change = "loopMode"});
+    DEBUG("Loop Mode set to: {}", loopMode);
   }
 
   void Playlist::addMedia(const std::string &filePath)
   {
-    INFO("Adding media to Playlist: {}", filePath);
+    DEBUG("Adding media to Playlist: {}", filePath);
 
     mediaFiles.push_back(filePath);
     Events::MediaAddedEvent e;
@@ -43,16 +43,29 @@ namespace lighter
     e.path = filePath;
     // TODO : add checks if the file exists
     eventManager->triggerEvent(Events::MEDIA_ADDED, e);
-    INFO("Media added successfully.");
+    DEBUG("Media added successfully.");
+
+    if (mediaFiles.size() == 1)
+    {
+      DEBUG("First media added, notifying player");
+      currentIndex = 0;
+      switchedMediaEv();
+    }
   }
 
   void Playlist::removeMedia(int index)
   {
-    INFO("Removing media from Playlist at index: {}", index);
+    DEBUG("Removing media from Playlist at index: {}", index);
     if (index < mediaFiles.size())
     {
+      Events::MediaRemovedEvent e;
+      e.name = getFileName(mediaFiles[index]);
+      e.path = mediaFiles[index];
+      e.index = index;
+      e.wasCurrent = (index == currentIndex);
       mediaFiles.erase(mediaFiles.begin() + index);
-      INFO("Media removed successfully.");
+      eventManager->triggerEvent(Events::MEDIA_REMOVED, e);
+      DEBUG("Media removed successfully.");
     }
     else
     {
@@ -62,9 +75,9 @@ namespace lighter
 
   void Playlist::clear()
   {
-    INFO("Clearing Playlist...");
+    DEBUG("Clearing Playlist...");
     mediaFiles.clear();
-    INFO("Playlist cleared successfully.");
+    DEBUG("Playlist cleared successfully.");
   }
 
   std::string Playlist::getCurrentMedia() const
@@ -75,13 +88,13 @@ namespace lighter
     }
     else
     {
-      return "";
+      return NULL;
     }
   }
 
   bool Playlist::next()
   {
-    INFO("Switching to next media...");
+    DEBUG("Switching to next media...");
     if (currentIndex < mediaFiles.size() - 1)
     {
       currentIndex++;
@@ -98,8 +111,32 @@ namespace lighter
         return false;
       }
     }
-    INFO("Switched to next media successfully.");
+    switchedMediaEv();
+    DEBUG("Switched to next media successfully.");
     return true;
   }
 
+  bool Playlist::previous()
+  {
+    if (currentIndex > 0 && currentIndex < mediaFiles.size())
+    {
+      currentIndex--;
+    }
+    else
+    {
+      WARN("Already at the start of the playlist");
+      return false;
+    }
+    switchedMediaEv();
+    return true;
+  }
+
+  void Playlist::switchedMediaEv()
+  {
+    Events::PlaybackMediaChangedEvent e;
+    e.name = getFileName(mediaFiles[currentIndex]);
+    e.path = mediaFiles[currentIndex];
+    e.index = currentIndex;
+    eventManager->triggerEvent(Events::PLAYBACK_MEDIA_CHANGED, e);
+  }
 }

@@ -1,12 +1,11 @@
 #ifndef CORE_CORE
 #define CORE_CORE
 
-
-#include "utils.hpp"
-#include "eventmanager.hpp"
-#include "events.hpp"
-#include "playlist.hpp"
-#include "player.hpp"
+#include "lightning_utils.hpp"
+#include "lightning_eventmanager.hpp"
+#include "lightning_events.hpp"
+#include "lightning_playlist.hpp"
+#include "lightning_player.hpp"
 
 namespace lighter
 {
@@ -41,6 +40,8 @@ namespace lighter
     Player *player = nullptr;
     Playlist *playlist = nullptr;
     EventManager *eventManager = nullptr;
+
+    static void vlc_log_callback(void *data, int level, const libvlc_log_t *ctx, const char *fmt, va_list args);
   };
 } // namespace lighter
 

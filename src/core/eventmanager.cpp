@@ -1,13 +1,13 @@
-#include "eventmanager.hpp"
+#include "lightning_eventmanager.hpp"
 
 namespace lighter
 {
 
   EventManager::EventManager()
   {
-    INFO("Initializing EventManager...");
+    DEBUG("Initializing EventManager...");
     eventThread = std::thread(&EventManager::processEvents, this);
-    INFO("EventManager initialized successfully.");
+    DEBUG("EventManager initialized successfully.");
   }
 
   void EventManager::processEvents()
@@ -40,9 +40,9 @@ namespace lighter
 
   EventManager::~EventManager()
   {
-    INFO("Uninitializing EventManager");
+    DEBUG("Uninitializing EventManager");
     running = false;
-    DEBUG("Running set to false");
+    DEBUG("event thread running status set to false");
     DEBUG("notifying event thread");
     cv.notify_one();
 
@@ -51,7 +51,7 @@ namespace lighter
       eventThread.join();
       DEBUG("Event thread joined");
     }
-    INFO("EventManager Uninitialized");
+    DEBUG("EventManager Uninitialized");
   }
 
   int EventManager::registerListner(Events::EventType type, Callback callback)
