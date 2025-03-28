@@ -73,6 +73,7 @@ namespace lighter
   {
     char buffer[1024];
     vsnprintf(buffer, sizeof(buffer), fmt, args);
+
     std::string log_msg = "[LibVLC] " + std::string(buffer);
 
     // Map VLC log levels to spdlog
