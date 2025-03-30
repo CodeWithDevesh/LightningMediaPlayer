@@ -70,6 +70,9 @@ namespace lighter
 		 */
 		void setVolume(int volume);
 
+
+		void setXWindow(int id);
+
 	private:
 		// Audio/Video Streams
 		/**

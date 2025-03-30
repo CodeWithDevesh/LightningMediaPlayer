@@ -25,6 +25,10 @@
           "type": "BOOL",
           "value": "OFF"
         },
+        "USE_CONSOLE": {
+          "type": "BOOL",
+          "value": "ON"
+        },
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "1",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake"
@@ -55,12 +59,20 @@
       }
     },
     {
-      "name": "tutorial",
+      "name": "dummy",
       "generator": "Ninja",
       "cacheVariables": {
-        "TUTORIAL": {
+        "DUMMY": {
           "type": "BOOL",
           "value": "ON"
+        },
+        "USE_GUI": {
+          "type": "BOOL",
+          "value": "OFF"
+        },
+        "USE_CONSOLE": {
+          "type": "BOOL",
+          "value": "OFF"
         },
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake"

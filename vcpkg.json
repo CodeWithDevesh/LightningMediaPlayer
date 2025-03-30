@@ -1,8 +1,5 @@
 {
   "dependencies": [
-    "spdlog",
-    "imgui",
-    "cli11",
-    "ftxui"
+    "spdlog"
   ]
 }

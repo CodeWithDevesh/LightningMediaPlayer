@@ -32,7 +32,7 @@ void lighter::Player::onMediaChanged(std::any arg)
   {
     stop();
   }
-  libvlc_media_t *media = libvlc_media_new_path(vlc_inst, e.path.c_str());
+  libvlc_media_t *media = libvlc_media_new_path(e.path.c_str());
   libvlc_media_player_set_media(player_inst, media);
   libvlc_media_release(media);
   play();
@@ -60,7 +60,7 @@ void lighter::Player::stop()
 {
   if (player_inst)
   {
-    libvlc_media_player_stop(player_inst);
+    libvlc_media_player_stop_async(player_inst);
     isPlaying = false;
   }
 }
@@ -69,7 +69,7 @@ void lighter::Player::seek(double seconds)
 {
   if (player_inst)
   {
-    libvlc_media_player_set_time(player_inst, seconds * 1000);
+    libvlc_media_player_set_time(player_inst, seconds * 1000, false);
   }
 }
 
@@ -78,5 +78,15 @@ void lighter::Player::setVolume(int volume)
   if (player_inst)
   {
     libvlc_audio_set_volume(player_inst, volume);
+  }
+}
+
+void lighter::Player::setXWindow(int id)
+{
+  if (player_inst)
+  {
+    libvlc_media_player_set_xwindow(player_inst, id);
+    libvlc_video_set_mouse_input(player_inst, 0);
+    libvlc_video_set_key_input(player_inst, 0);
   }
 }
