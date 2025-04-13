@@ -73,6 +73,8 @@ namespace lighter
 
 		void setXWindow(int id);
 
+		inline bool isPlaying() {return playing;}
+
 	private:
 		// Audio/Video Streams
 		/**
@@ -118,7 +120,7 @@ namespace lighter
 		/**
 		 * @brief Indicates whether media is currently playing.
 		 */
-		bool isPlaying = false;
+		bool playing = false;
 	};
 
 }

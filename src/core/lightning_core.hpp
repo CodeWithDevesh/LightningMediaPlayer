@@ -33,10 +33,10 @@ namespace lighter
     Playlist *getPlaylist() const { return playlist; }
     // Get the EventManager
     EventManager *getEventManager() const { return eventManager; }
+    void cleanup();
 
   private:
     bool init();
-    void cleanup();
     Player *player = nullptr;
     Playlist *playlist = nullptr;
     EventManager *eventManager = nullptr;

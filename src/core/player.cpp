@@ -28,7 +28,7 @@ void lighter::Player::onMediaChanged(std::any arg)
 {
   auto e = std::any_cast<Events::PlaybackMediaChangedEvent>(arg);
   DEBUG("Media Changed: {}", e.name);
-  if (isPlaying)
+  if (playing)
   {
     stop();
   }
@@ -43,7 +43,7 @@ void lighter::Player::play()
   if (player_inst)
   {
     libvlc_media_player_play(player_inst);
-    isPlaying = true;
+    playing = true;
   }
 }
 
@@ -52,7 +52,7 @@ void lighter::Player::pause()
   if (player_inst)
   {
     libvlc_media_player_pause(player_inst);
-    isPlaying = false;
+    playing = false;
   }
 }
 
@@ -61,7 +61,7 @@ void lighter::Player::stop()
   if (player_inst)
   {
     libvlc_media_player_stop_async(player_inst);
-    isPlaying = false;
+    playing = false;
   }
 }
 

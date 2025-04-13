@@ -9,7 +9,7 @@ namespace lighter
     {
       DEBUG("Initializing libVLC...");
 
-      const char *vlc_args[] = {"--quiet", "--no-video-title-show",
+      const char *vlc_args[] = {"--no-video-title-show",
                                 "--avcodec-hw=any"};
 
       // Before anything initialize the event manager
@@ -40,7 +40,6 @@ namespace lighter
 
   void Core::cleanup()
   {
-
     DEBUG("Cleaning up libVLC resources...");
 
     if (playlist)
